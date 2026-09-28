@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Budgets</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .add {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #e2e8f0;
+        }
+
+        .edit {
+            color: #2563eb;
+        }
+
+        .delete {
+            color: #dc2626;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 Budgets</h1>
+
+    <a class="add"
+       th:href="@{/budgets/new}">
+        + Add Budget
+    </a>
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Name</th>
+
+            <th>Year</th>
+
+            <th>Budget</th>
+
+            <th>Spent</th>
+
+            <th>Remaining</th>
+
+            <th>Status</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="budget : ${budgets}">
+
+            <td th:text="${budget.id}">
+                1
+            </td>
+
+            <td th:text="${budget.budgetName}">
+                Water Plant
+            </td>
+
+            <td th:text="${budget.budgetYear}">
+                2026
+            </td>
+
+            <td>
+                ₹ <span th:text="${budget.budgetAmount}">
+                    0
+                </span>
+            </td>
+
+            <td>
+                ₹ <span th:text="${budget.spentAmount}">
+                    0
+                </span>
+            </td>
+
+            <td>
+                ₹ <span th:text="${budget.remainingAmount}">
+                    0
+                </span>
+            </td>
+
+            <td th:text="${budget.status}">
+                ACTIVE
+            </td>
+
+            <td>
+
+                <a class="edit"
+                   th:href="@{/budgets/edit/{id}(id=${budget.id})}">
+                    Edit
+                </a>
+
+                &nbsp; | &nbsp;
+
+                <a class="delete"
+                   th:href="@{/budgets/delete/{id}(id=${budget.id})}"
+                   onclick="return confirm('Delete this budget?')">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(budgets)}">
+
+            <td colspan="8"
+                style="text-align:center">
+
+                No budgets found.
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

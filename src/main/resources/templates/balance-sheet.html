@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Balance Sheet - Water Quality</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #1664d9;
+            color: white;
+            padding: 36px 60px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 18px 0 0;
+            font-size: 20px;
+        }
+
+
+        /* ================= MAIN CONTAINER ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .top-bar h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #152238;
+        }
+
+        .dashboard-btn {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .dashboard-btn:hover {
+            background: #157347;
+        }
+
+        /* ================= BALANCE SHEET ================= */
+
+        .sheet {
+            width: 100%;
+            border: 1px solid #e1e5ea;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .sheet-header {
+            background: #20252b;
+            color: white;
+            padding: 17px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 16px;
+            background: white;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .row:hover {
+            background: #f8fbff;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #1664d9;
+            font-size: 17px;
+        }
+
+        /* Liabilities */
+
+        .liability .amount {
+            color: #dc3545;
+        }
+
+        /* Equity */
+
+        .equity {
+            background: #f0f8f4;
+        }
+
+        .equity .amount {
+            color: #198754;
+            font-size: 19px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 22px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .main-card {
+                padding: 20px;
+            }
+
+            .top-bar {
+                align-items: center;
+            }
+
+            .top-bar h2 {
+                font-size: 23px;
+            }
+
+            .dashboard-btn {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .row {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .dashboard-btn {
+                text-align: center;
+                width: 100%;
+            }
+
+            .top-bar h2 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <h1>💧 Water Quality Monitoring Hub</h1>
+
+    <p>
+        Financial Accounting &amp; Balance Sheet Management
+    </p>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <div class="main-card">
+
+        <!-- TITLE + DASHBOARD -->
+
+        <div class="top-bar">
+
+            <h2>⚖️ Balance Sheet</h2>
+
+            <a th:href="@{/reports}"
+               class="dashboard-btn">
+                📊 Report
+            </a>
+
+        </div>
+
+
+        <!-- BALANCE SHEET -->
+
+        <div class="sheet">
+
+            <div class="sheet-header">
+                Financial Position
+            </div>
+
+
+            <!-- ASSETS -->
+
+            <div class="row">
+
+                <span class="label">
+                    Assets
+                </span>
+
+                <span class="amount"
+                      th:text="${assets}">
+                    0
+                </span>
+
+            </div>
+
+
+            <!-- LIABILITIES -->
+
+            <div class="row liability">
+
+                <span class="label">
+                    Liabilities
+                </span>
+
+                <span class="amount"
+                      th:text="${liabilities}">
+                    0
+                </span>
+
+            </div>
+
+
+            <!-- EQUITY -->
+
+            <div class="row equity">
+
+                <span class="label">
+                    Equity
+                </span>
+
+                <span class="amount"
+                      th:text="${equity}">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

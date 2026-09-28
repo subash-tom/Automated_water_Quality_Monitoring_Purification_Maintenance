@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Vendor Bills</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #212529;
+            color: white;
+        }
+
+        .add {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+            padding: 6px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Vendor Bills</h1>
+
+    <a href="/vendor-bills/add"
+       class="add">
+        + Add Vendor Bill
+    </a>
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Bill Number</th>
+            <th>Bill Date</th>
+            <th>Vendor</th>
+            <th>Purchase Order</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="bill : ${bills}">
+
+            <td th:text="${bill.id}">
+            </td>
+
+            <td th:text="${bill.billNumber}">
+            </td>
+
+            <td th:text="${bill.billDate}">
+            </td>
+
+            <td th:text="${bill.vendor != null
+                    ? bill.vendor.name
+                    : 'N/A'}">
+            </td>
+
+            <td th:text="${bill.purchaseOrder != null
+                    ? bill.purchaseOrder.orderNumber
+                    : 'N/A'}">
+            </td>
+
+            <td th:text="${bill.amount}">
+            </td>
+
+            <td th:text="${bill.status}">
+            </td>
+
+            <td>
+
+                <a class="delete"
+                   th:href="@{/vendor-bills/delete/{id}(id=${bill.id})}"
+                   onclick="return confirm('Delete this bill?');">
+
+                    Delete
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(bills)}">
+
+            <td colspan="8"
+                style="text-align:center;">
+
+                No Vendor Bills Found
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

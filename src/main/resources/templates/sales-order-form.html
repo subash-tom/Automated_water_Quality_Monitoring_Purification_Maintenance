@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Create Sales Order</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            padding: 30px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🧾 Create Sales Order</h1>
+
+    <form action="/sales-orders/save" method="post">
+
+        <label>Customer</label>
+
+        <select name="customerId" required>
+
+            <option value="">-- Select Customer --</option>
+
+            <option th:each="customer : ${customers}"
+                    th:value="${customer.id}"
+                    th:text="${customer.name}">
+            </option>
+
+        </select>
+
+
+        <label>Product</label>
+
+        <select name="productId" required>
+
+            <option value="">-- Select Product --</option>
+
+            <option th:each="product : ${products}"
+                    th:value="${product.id}"
+                    th:text="${product.name}">
+            </option>
+
+        </select>
+
+
+        <label>Quantity</label>
+
+        <input type="number"
+               name="quantity"
+               min="1"
+               required>
+
+
+        <label>Unit Price</label>
+
+        <input type="number"
+               name="unitPrice"
+               step="0.01"
+               min="0"
+               required>
+
+
+        <label>Order Date</label>
+
+        <input type="date"
+               name="orderDate"
+               required>
+
+
+        <label>Status</label>
+
+        <select name="status">
+
+            <option value="PENDING">PENDING</option>
+
+            <option value="CONFIRMED">CONFIRMED</option>
+
+            <option value="CANCELLED">CANCELLED</option>
+
+        </select>
+
+
+        <button type="submit">
+            💾 Save Sales Order
+        </button>
+
+    </form>
+
+    <a class="back" href="/sales-orders">
+        ← Back to Sales Orders
+    </a>
+
+</div>
+
+</body>
+
+</html>

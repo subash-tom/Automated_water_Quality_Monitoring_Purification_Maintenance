@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Customer Form</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #157347;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ADD TITLE -->
+
+    <h2 th:if="${customer.id == null}">
+        Add Customer
+    </h2>
+
+    <!-- EDIT TITLE -->
+
+    <h2 th:if="${customer.id != null}">
+        Edit Customer
+    </h2>
+
+
+    <!-- ================================= -->
+    <!-- ADD CUSTOMER -->
+    <!-- ================================= -->
+
+    <form th:if="${customer.id == null}"
+          th:action="@{/customers/save}"
+          th:object="${customer}"
+          method="post">
+
+        <label>Customer Name</label>
+
+        <input type="text"
+               th:field="*{name}"
+               placeholder="Enter customer name"
+               required>
+
+
+        <label>Contact Person</label>
+
+        <input type="text"
+               th:field="*{contactPerson}"
+               placeholder="Enter contact person">
+
+
+        <label>Phone</label>
+
+        <input type="text"
+               th:field="*{phone}"
+               placeholder="Enter phone number">
+
+
+        <label>Email</label>
+
+        <input type="email"
+               th:field="*{email}"
+               placeholder="Enter email">
+
+
+        <label>Address</label>
+
+        <textarea th:field="*{address}"
+                  placeholder="Enter address"></textarea>
+
+
+        <button type="submit">
+            Save Customer
+        </button>
+
+    </form>
+
+
+    <!-- ================================= -->
+    <!-- EDIT CUSTOMER -->
+    <!-- ================================= -->
+
+    <form th:if="${customer.id != null}"
+          th:action="@{/customers/update/{id}(id=${customer.id})}"
+          th:object="${customer}"
+          method="post">
+
+        <label>Customer Name</label>
+
+        <input type="text"
+               th:field="*{name}"
+               required>
+
+
+        <label>Contact Person</label>
+
+        <input type="text"
+               th:field="*{contactPerson}">
+
+
+        <label>Phone</label>
+
+        <input type="text"
+               th:field="*{phone}">
+
+
+        <label>Email</label>
+
+        <input type="email"
+               th:field="*{email}">
+
+
+        <label>Address</label>
+
+        <textarea th:field="*{address}"></textarea>
+
+
+        <button type="submit">
+            Update Customer
+        </button>
+
+    </form>
+
+
+    <a class="back"
+       th:href="@{/customers}">
+        ← Back to Customers
+    </a>
+
+</div>
+
+</body>
+
+</html>

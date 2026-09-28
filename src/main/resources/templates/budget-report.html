@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Budget Report - Water Quality</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+
+        /* ================= HEADER ================= */
+
+         .header {
+            background: #1664d9;
+            color: white;
+            padding: 36px 60px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 18px 0 0;
+            font-size: 20px;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+
+        .main-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+
+        .top-bar h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #152238;
+        }
+
+
+        /* ================= DASHBOARD BUTTON ================= */
+
+        .dashboard-btn {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+
+        .dashboard-btn:hover {
+            background: #157347;
+        }
+
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #e1e5ea;
+            border-radius: 10px;
+        }
+
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+
+        thead th {
+            background: #20252b;
+            color: white;
+            padding: 16px 14px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+
+        tbody td {
+            padding: 16px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #333;
+        }
+
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        tbody tr:hover {
+            background: #f8fbff;
+        }
+
+
+        /* ================= AMOUNTS ================= */
+
+        .budget-amount {
+            color: #1664d9;
+            font-weight: bold;
+        }
+
+
+        .actual-expense {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+
+        .variance {
+            color: #198754;
+            font-weight: bold;
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .within {
+            color: #198754;
+            font-weight: bold;
+            background: #eaf7ef;
+            padding: 15px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+
+        .exceeded {
+            color: #dc3545;
+            font-weight: bold;
+            background: #fdebec;
+            padding: 7px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+
+        /* ================= EMPTY STATE ================= */
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+            padding: 25px !important;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 22px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .main-card {
+                padding: 20px;
+            }
+
+            .top-bar {
+                align-items: center;
+            }
+
+            .top-bar h2 {
+                font-size: 23px;
+            }
+
+            .dashboard-btn {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .top-bar h2 {
+                text-align: center;
+            }
+
+            .dashboard-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <h1>
+        💧 Water Quality Monitoring Hub
+    </h1>
+
+    <p>
+        Financial Accounting &amp; Budget Management
+    </p>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <div class="main-card">
+
+
+        <!-- TITLE + DASHBOARD -->
+
+        <div class="top-bar">
+
+            <h2>
+                📊 Budget Report
+            </h2>
+
+            <a th:href="@{/reports}"
+               class="dashboard-btn">
+
+                📊 Report
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ================= BUDGET TABLE ================= -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Budget Name</th>
+
+                    <th>Budget Amount</th>
+
+                    <th>Actual Expense</th>
+
+                    <th>Variance</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                <!-- BUDGET RECORDS -->
+
+                <tr th:each="budget : ${budgets}">
+
+                    <td th:text="${budget.id}">
+                        1
+                    </td>
+
+
+                    <td th:text="${budget.budgetName}">
+                        Budget
+                    </td>
+
+
+                    <td class="budget-amount"
+                        th:text="${budget.budgetAmount}">
+                        0
+                    </td>
+
+
+                    <td class="actual-expense"
+                        th:text="${budget.actualExpense}">
+                        0
+                    </td>
+
+
+                    <!-- VARIANCE -->
+
+                    <td class="variance"
+                        th:text="${budget.budgetAmount - budget.actualExpense}">
+                        0
+                    </td>
+
+
+                    <!-- WITHIN BUDGET -->
+
+                    <td th:if="${budget.actualExpense <= budget.budgetAmount}"
+                        class="within">
+
+                        Within Budget
+
+                    </td>
+
+
+                    <!-- BUDGET EXCEEDED -->
+
+                    <td th:if="${budget.actualExpense > budget.budgetAmount}"
+                        class="exceeded">
+
+                        Budget Exceeded
+
+                    </td>
+
+                </tr>
+
+
+                <!-- EMPTY STATE -->
+
+                <tr th:if="${budgets == null or #lists.isEmpty(budgets)}">
+
+                    <td colspan="6"
+                        class="empty-row">
+
+                        No budget records found.
+
+                    </td>
+
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

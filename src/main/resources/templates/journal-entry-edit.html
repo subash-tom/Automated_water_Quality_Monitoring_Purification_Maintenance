@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Journal Entry</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button, .back-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .back-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Edit Journal Entry</h2>
+
+    <form th:action="@{/ledger/update/{id}(id=${entry.id})}"
+          method="post">
+
+        <label>Entry Type</label>
+        <select name="type" required>
+
+            <option value="INCOME"
+                    th:selected="${entry.type == 'INCOME'}">
+                INCOME
+            </option>
+
+            <option value="EXPENSE"
+                    th:selected="${entry.type == 'EXPENSE'}">
+                EXPENSE
+            </option>
+
+        </select>
+
+        <label>Category</label>
+
+        <select name="category" required>
+
+            <option value="COMMERCIAL_WATER_REVENUE"
+                    th:selected="${entry.category == 'COMMERCIAL_WATER_REVENUE'}">
+                COMMERCIAL WATER REVENUE
+            </option>
+
+            <option value="CHEMICALS_AND_FILTER"
+                    th:selected="${entry.category == 'CHEMICALS_AND_FILTER'}">
+                CHEMICALS AND FILTER
+            </option>
+
+            <option value="CHEMICALS"
+                    th:selected="${entry.category == 'CHEMICALS'}">
+                CHEMICALS
+            </option>
+
+            <option value="FILTER_REPLACEMENT"
+                    th:selected="${entry.category == 'FILTER_REPLACEMENT'}">
+                FILTER REPLACEMENT
+            </option>
+
+        </select>
+
+        <label>Amount</label>
+
+        <input type="number"
+               name="amount"
+               step="0.01"
+               min="0"
+               th:value="${entry.amount}"
+               required>
+
+        <label>Description</label>
+
+        <textarea name="description"
+                  th:text="${entry.description}"
+                  required></textarea>
+
+        <div class="buttons">
+
+            <button type="submit">
+                Update Entry
+            </button>
+
+            <a href="/ledger" class="back-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

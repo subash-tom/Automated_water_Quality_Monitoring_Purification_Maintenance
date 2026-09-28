@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Account</title>
+    <style>
+        body{font-family:Arial;background:#f4f7fb;padding:40px}
+        .box{max-width:600px;margin:auto;background:white;padding:30px;border-radius:12px}
+        label{display:block;margin-top:18px;font-weight:bold}
+        input,select,textarea{width:100%;padding:12px;margin-top:7px;box-sizing:border-box;border:1px solid #ccc;border-radius:7px}
+        button,.btn{margin-top:22px;padding:12px 20px;border:0;border-radius:7px;color:white;text-decoration:none;background:#2563eb;cursor:pointer}
+        .back{background:#6b7280;margin-left:8px}
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+    <h1>Edit Account</h1>
+
+    <form th:action="@{/accounts/update/{id}(id=${account.id})}"
+          method="post">
+
+        <label>Account Code</label>
+        <input type="text"
+               name="accountCode"
+               th:value="${account.accountCode}"
+               required>
+
+        <label>Account Name</label>
+        <input type="text"
+               name="accountName"
+               th:value="${account.accountName}"
+               required>
+
+        <label>Account Type</label>
+
+        <select name="accountType" required>
+
+            <option value="ASSET"
+                    th:selected="${account.accountType == 'ASSET'}">
+                ASSET
+            </option>
+
+            <option value="LIABILITY"
+                    th:selected="${account.accountType == 'LIABILITY'}">
+                LIABILITY
+            </option>
+
+            <option value="INCOME"
+                    th:selected="${account.accountType == 'INCOME'}">
+                INCOME
+            </option>
+
+            <option value="EXPENSE"
+                    th:selected="${account.accountType == 'EXPENSE'}">
+                EXPENSE
+            </option>
+
+        </select>
+
+        <label>Description</label>
+
+        <textarea name="description"
+                  th:text="${account.description}">
+        </textarea>
+
+        <button type="submit">Update Account</button>
+
+        <a class="btn back" href="/accounts">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

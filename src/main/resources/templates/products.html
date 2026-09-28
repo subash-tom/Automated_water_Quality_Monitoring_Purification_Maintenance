@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #111827;
+        }
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+            background: #1664d9;
+            color: white;
+            padding: 30px 55px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 18px 0 0;
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+            width: 94%;
+            max-width: 1600px;
+            margin: 38px auto;
+            background: white;
+            border-radius: 18px;
+            padding: 45px 35px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           TOP SECTION
+           ========================= */
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 20px;
+        }
+
+        .top h2 {
+            margin: 0;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================
+           BUTTONS
+           ========================= */
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background: #1664d9;
+        }
+
+        .add-btn:hover {
+            background: #0f56c0;
+        }
+
+        .dashboard-btn {
+            background: #198754;
+        }
+
+        .dashboard-btn:hover {
+            background: #157347;
+        }
+
+
+        /* =========================
+           TABLE
+           ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 900px;
+        }
+
+        thead th {
+            background: #20252b;
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 16px;
+            color: #222;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+           ========================= */
+
+        .edit {
+            color: #1664d9;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 18px;
+        }
+
+        .edit:hover {
+            text-decoration: underline;
+        }
+
+        .delete {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .delete:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           PRICE
+           ========================= */
+
+        .price {
+            font-weight: 600;
+            color: #198754;
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+           ========================= */
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .header {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                width: 94%;
+                padding: 25px 18px;
+            }
+
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .top h2 {
+                font-size: 25px;
+            }
+
+            .buttons {
+                width: 100%;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+     ========================= -->
+
+<header class="header">
+
+    <h1>
+        💧 Water Quality Monitoring Hub
+    </h1>
+
+    <p>
+        Water Purification Product Management
+    </p>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+     ========================= -->
+
+<div class="container">
+
+
+    <!-- TOP SECTION -->
+
+    <div class="top">
+
+        <h2>
+            📦 Products
+        </h2>
+
+
+        <div class="buttons">
+
+            <!-- Dashboard -->
+
+            <a href="/dashboard"
+               class="btn dashboard-btn">
+                🏠 Dashboard
+            </a>
+
+
+            <!-- Add Product -->
+
+            <a href="/products/add"
+               class="btn add-btn">
+                + Add Product
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         PRODUCT TABLE
+         ========================= -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Product Name</th>
+
+                <th>Type</th>
+
+                <th>Price</th>
+
+                <th>Description</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            <!-- Product records -->
+
+            <tr th:each="product : ${products}">
+
+                <td th:text="${product.id}">
+                    1
+                </td>
+
+
+                <td th:text="${product.name}">
+                    Water Filter
+                </td>
+
+
+                <td th:text="${product.type}">
+                    Filter
+                </td>
+
+
+                <td class="price">
+
+                    ₹<span th:text="${product.price}">
+                        0
+                    </span>
+
+                </td>
+
+
+                <td th:text="${product.description}">
+                    Product description
+                </td>
+
+
+                <td>
+
+                    <!-- Edit -->
+
+                    <a class="edit"
+                       th:href="@{/products/edit/{id}(id=${product.id})}">
+                        Edit
+                    </a>
+
+
+                    <!-- Delete -->
+
+                    <a class="delete"
+                       th:href="@{/products/delete/{id}(id=${product.id})}"
+                       onclick="return confirm('Are you sure you want to delete this product?');">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+
+            <!-- Empty data -->
+
+            <tr th:if="${#lists.isEmpty(products)}">
+
+                <td colspan="6"
+                    class="empty-message">
+
+                    No products found.
+
+                    <br><br>
+
+                    Click
+                    <strong>+ Add Product</strong>
+                    to add a product.
+
+                </td>
+
+            </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

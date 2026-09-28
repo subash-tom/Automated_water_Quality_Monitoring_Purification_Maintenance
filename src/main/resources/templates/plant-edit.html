@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Plant</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 50px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 36px;
+            color: #111827;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        button,
+        .cancel-btn {
+            padding: 13px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .update-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Edit Plant</h1>
+
+        <form
+                th:action="@{/plants/update/{id}(id=${plant.id})}"
+                th:object="${plant}"
+                method="post">
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Plant Name
+                </label>
+
+                <input
+                        type="text"
+                        id="name"
+                        th:field="*{name}"
+                        required>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    Location
+                </label>
+
+                <input
+                        type="text"
+                        id="location"
+                        th:field="*{location}"
+                        required>
+
+            </div>
+
+
+            <!-- MINIMUM PH -->
+
+            <div class="form-group">
+
+                <label for="minimumPh">
+                    Minimum pH
+                </label>
+
+                <input
+                        type="number"
+                        id="minimumPh"
+                        th:field="*{minimumPh}"
+                        step="0.1"
+                        min="0"
+                        max="14"
+                        required>
+
+            </div>
+
+
+            <!-- MAXIMUM PH -->
+
+            <div class="form-group">
+
+                <label for="maximumPh">
+                    Maximum pH
+                </label>
+
+                <input
+                        type="number"
+                        id="maximumPh"
+                        th:field="*{maximumPh}"
+                        step="0.1"
+                        min="0"
+                        max="14"
+                        required>
+
+            </div>
+
+
+            <!-- CURRENT PH -->
+
+            <div class="form-group">
+
+                <label for="currentPh">
+                    Current pH
+                </label>
+
+                <input
+                        type="number"
+                        id="currentPh"
+                        th:field="*{currentPh}"
+                        step="0.1"
+                        min="0"
+                        max="14">
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                        type="submit"
+                        class="update-btn">
+                    Update
+                </button>
+
+                <a
+                        th:href="@{/plants}"
+                        class="cancel-btn">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

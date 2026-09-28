@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Water Quality - Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #1664d9;
+            color: white;
+            padding: 18px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            font-size: 14px;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+
+        /* ================= WELCOME ================= */
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #666;
+            margin-top: 0;
+        }
+
+
+        /* ================= SUMMARY CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .card h3 {
+            margin: 0 0 15px 0;
+            color: #555;
+            font-size: 17px;
+        }
+
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1664d9;
+        }
+
+
+        .money {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        .income {
+            color: #198754;
+        }
+
+
+        .expense {
+            color: #dc3545;
+        }
+
+
+        .profit {
+            color: #1664d9;
+        }
+
+
+        /* ================= SECTION ================= */
+
+        .section-title {
+            margin: 30px 0 15px;
+            color: #152238;
+        }
+
+
+        /* ================= MENU GRID ================= */
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+
+        .menu-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+            transition: 0.2s;
+        }
+
+
+        .menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .menu-card h3 {
+            margin: 0 0 8px;
+            color: #1664d9;
+        }
+
+
+        .menu-card p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        /* ================= FINANCIAL REPORT CARD ================= */
+
+        .report-card {
+            max-width: 320px;
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .status {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .cards,
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-card {
+                max-width: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <h1>
+        💧 Water Quality Monitoring Hub
+    </h1>
+
+    <p>
+        Water Quality Management System
+    </p>
+
+</header>
+
+
+<!-- ================= MAIN CONTAINER ================= -->
+
+<div class="container">
+
+
+    <!-- ================= WELCOME ================= -->
+
+    <div class="welcome">
+
+        <h2>
+            Dashboard
+        </h2>
+
+        <p>
+            Water Quality Management System - Overview
+        </p>
+
+    </div>
+
+
+    <!-- ================= SUMMARY CARDS ================= -->
+
+    <div class="cards">
+
+
+        <!-- Plants -->
+
+        <div class="card">
+
+            <h3>
+                Total Plants
+            </h3>
+
+            <div class="number"
+                 id="totalPlants">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Customers -->
+
+        <div class="card">
+
+            <h3>
+                Total Customers
+            </h3>
+
+            <div class="number"
+                 id="totalCustomers">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Vendors -->
+
+        <div class="card">
+
+            <h3>
+                Total Vendors
+            </h3>
+
+            <div class="number"
+                 id="totalVendors">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Products -->
+
+        <div class="card">
+
+            <h3>
+                Total Products
+            </h3>
+
+            <div class="number"
+                 id="totalProducts">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Purchase Orders -->
+
+        <div class="card">
+
+            <h3>
+                Purchase Orders
+            </h3>
+
+            <div class="number"
+                 id="totalPurchaseOrders">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Sales Invoices -->
+
+        <div class="card">
+
+            <h3>
+                Sales Invoices
+            </h3>
+
+            <div class="number"
+                 id="totalSalesInvoices">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <!-- Income -->
+
+        <div class="card">
+
+            <h3>
+                Total Income
+            </h3>
+
+            <div class="money income"
+                 id="totalIncome">
+
+                ₹0.00
+
+            </div>
+
+        </div>
+
+
+        <!-- Expense -->
+
+        <div class="card">
+
+            <h3>
+                Total Expense
+            </h3>
+
+            <div class="money expense"
+                 id="totalExpense">
+
+                ₹0.00
+
+            </div>
+
+        </div>
+
+
+        <!-- Net Profit -->
+
+        <div class="card">
+
+            <h3>
+                Net Profit
+            </h3>
+
+            <div class="money profit"
+                 id="netProfit">
+
+                ₹0.00
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= MANAGEMENT ================= -->
+
+    <h2 class="section-title">
+        Management
+    </h2>
+
+
+    <div class="menu-grid">
+
+
+        <a class="menu-card"
+           href="/plants">
+
+            <h3>
+                🏭 Plants
+            </h3>
+
+            <p>
+                Manage water treatment plants
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/vendors">
+
+            <h3>
+                🏢 Vendors
+            </h3>
+
+            <p>
+                Manage vendors and suppliers
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/customers">
+
+            <h3>
+                👥 Customers
+            </h3>
+
+            <p>
+                Manage customers
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/products">
+
+            <h3>
+                📦 Products
+            </h3>
+
+            <p>
+                Manage products
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/purchase-orders">
+
+            <h3>
+                🛒 Purchase Orders
+            </h3>
+
+            <p>
+                Manage purchase orders
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/sales-orders">
+
+            <h3>
+                📄 Sales Orders
+            </h3>
+
+            <p>
+                Manage sales orders
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/customer-invoices">
+
+            <h3>
+                🧾 Customer Invoices
+            </h3>
+
+            <p>
+                Manage customer invoices
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/vendor-bills">
+
+            <h3>
+                💵 Vendor Bills
+            </h3>
+
+            <p>
+                Manage vendor bills
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- ================= ACCOUNTING ================= -->
+
+    <h2 class="section-title">
+        Accounting
+    </h2>
+
+
+    <div class="menu-grid">
+
+
+        <a class="menu-card"
+           href="/accounts">
+
+            <h3>
+                📚 Chart of Accounts
+            </h3>
+
+            <p>
+                Manage accounting accounts
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/ledger">
+
+            <h3>
+                📒 Ledger
+            </h3>
+
+            <p>
+                View income and expense entries
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/budgets">
+
+            <h3>
+                📊 Budgets
+            </h3>
+
+            <p>
+                Manage budgets and variance
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/bank-payments">
+
+            <h3>
+                🏦 Bank Payments
+            </h3>
+
+            <p>
+                Manage bank payments
+            </p>
+
+        </a>
+
+
+        <a class="menu-card"
+           href="/customer-payments">
+
+            <h3>
+                💳 Customer Payments
+            </h3>
+
+            <p>
+                Manage customer payments
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- ================= FINANCIAL REPORTS ================= -->
+
+    <h2 class="section-title">
+        Financial Reports
+    </h2>
+
+
+    <div class="menu-grid">
+
+
+        <!-- SINGLE REPORT BOX -->
+
+        <a class="menu-card report-card"
+           href="/reports">
+
+            <h3>
+                📊 Financial Reports
+            </h3>
+
+            <p>
+                View Balance Sheet, Profit &amp; Loss
+                and Budget Reports
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- ================= ERROR MESSAGE ================= -->
+
+    <div id="errorMessage"
+         class="status error">
+    </div>
+
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    async function loadDashboard() {
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        errorMessage.style.display = "none";
+
+        errorMessage.textContent = "";
+
+
+        try {
+
+            const response =
+                await fetch("/api/dashboard");
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Dashboard API returned HTTP "
+                    + response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /* ================= COUNTS ================= */
+
+            document.getElementById("totalPlants")
+                .textContent =
+                data.totalPlants ?? 0;
+
+
+            document.getElementById("totalCustomers")
+                .textContent =
+                data.totalCustomers ?? 0;
+
+
+            document.getElementById("totalVendors")
+                .textContent =
+                data.totalVendors ?? 0;
+
+
+            document.getElementById("totalProducts")
+                .textContent =
+                data.totalProducts ?? 0;
+
+
+            document.getElementById("totalPurchaseOrders")
+                .textContent =
+                data.totalPurchaseOrders ?? 0;
+
+
+            document.getElementById("totalSalesInvoices")
+                .textContent =
+                data.totalSalesInvoices ?? 0;
+
+
+            /* ================= MONEY ================= */
+
+            document.getElementById("totalIncome")
+                .textContent =
+                formatCurrency(
+                    data.totalIncome
+                );
+
+
+            document.getElementById("totalExpense")
+                .textContent =
+                formatCurrency(
+                    data.totalExpense
+                );
+
+
+            document.getElementById("netProfit")
+                .textContent =
+                formatCurrency(
+                    data.netProfit
+                );
+
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard error:",
+                error
+            );
+
+
+            errorMessage.textContent =
+                "Unable to load dashboard data. "
+                + "Please check whether the Spring Boot application is running.";
+
+
+            errorMessage.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* ================= CURRENCY ================= */
+
+    function formatCurrency(value) {
+
+        const amount =
+            Number(value ?? 0);
+
+
+        return "₹" +
+            amount.toLocaleString(
+                "en-IN",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+
+    /* ================= AUTO LOAD ================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadDashboard();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

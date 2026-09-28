@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Budget</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button,
+        .cancel {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .cancel {
+            background: #6b7280;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Edit Budget</h2>
+
+    <form th:action="@{/budgets/update/{id}(id=${budget.id})}"
+          method="post">
+
+        <label>Plant</label>
+
+        <select name="plantId" required>
+
+            <option th:each="plant : ${plants}"
+                    th:value="${plant.id}"
+                    th:text="${plant.name + ' - ' + plant.location}"
+                    th:selected="${plant.id == budget.plant.id}">
+            </option>
+
+        </select>
+
+
+        <label>Budget Name</label>
+
+        <input type="text"
+               name="budgetName"
+               th:value="${budget.budgetName}"
+               required>
+
+
+        <label>Budget Amount</label>
+
+        <input type="number"
+               name="budgetAmount"
+               min="0"
+               step="0.01"
+               th:value="${budget.budgetAmount}"
+               required>
+
+
+        <label>Actual Expense</label>
+
+        <input type="number"
+               name="actualExpense"
+               min="0"
+               step="0.01"
+               th:value="${budget.actualExpense}"
+               required>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Update Budget
+            </button>
+
+            <a href="/budgets" class="cancel">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

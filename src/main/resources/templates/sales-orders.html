@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Order Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #111827;
+        }
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+            background: #1664d9;
+            color: white;
+            padding: 30px 55px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 18px 0 0;
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+            width: 94%;
+            max-width: 1600px;
+            margin: 38px auto;
+            background: white;
+            border-radius: 18px;
+            padding: 45px 35px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           TOP SECTION
+           ========================= */
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 20px;
+        }
+
+        .top h2 {
+            margin: 0;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================
+           BUTTONS
+           ========================= */
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background: #1664d9;
+        }
+
+        .add-btn:hover {
+            background: #0f56c0;
+        }
+
+        .dashboard-btn {
+            background: #198754;
+        }
+
+        .dashboard-btn:hover {
+            background: #157347;
+        }
+
+
+        /* =========================
+           TABLE
+           ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 1100px;
+        }
+
+        thead th {
+            background: #20252b;
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 16px;
+            color: #222;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =========================
+           MONEY
+           ========================= */
+
+        .money {
+            font-weight: 600;
+            color: #198754;
+        }
+
+
+        /* =========================
+           STATUS
+           ========================= */
+
+        .confirmed {
+            color: #198754;
+            font-weight: 600;
+        }
+
+        .pending {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .cancelled {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           DELETE
+           ========================= */
+
+        .delete {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .delete:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+           ========================= */
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .header {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                width: 94%;
+                padding: 25px 18px;
+            }
+
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .top h2 {
+                font-size: 25px;
+            }
+
+            .buttons {
+                width: 100%;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+     ========================= -->
+
+<header class="header">
+
+    <h1>
+        💧 Water Quality Monitoring Hub
+    </h1>
+
+    <p>
+        Commercial Water Sales Order Management
+    </p>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+     ========================= -->
+
+<div class="container">
+
+
+    <!-- TOP SECTION -->
+
+    <div class="top">
+
+        <h2>
+            🧾 Sales Orders
+        </h2>
+
+
+        <div class="buttons">
+
+            <!-- Dashboard -->
+
+            <a href="/dashboard"
+               class="btn dashboard-btn">
+                🏠 Dashboard
+            </a>
+
+
+            <!-- Create Sales Order -->
+
+            <a href="/sales-orders/add"
+               class="btn add-btn">
+                + Create Sales Order
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         SALES ORDER TABLE
+         ========================= -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Customer</th>
+
+                <th>Product</th>
+
+                <th>Quantity</th>
+
+                <th>Unit Price</th>
+
+                <th>Total Amount</th>
+
+                <th>Order Date</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            <!-- Sales Orders -->
+
+            <tr th:each="order : ${orders}">
+
+                <td th:text="${order.id}">
+                    1
+                </td>
+
+
+                <td th:text="${order.customer.name}">
+                    Customer
+                </td>
+
+
+                <td th:text="${order.product.name}">
+                    Product
+                </td>
+
+
+                <td th:text="${order.quantity}">
+                    10
+                </td>
+
+
+                <td class="money">
+
+                    ₹<span th:text="${order.unitPrice}">
+                        0
+                    </span>
+
+                </td>
+
+
+                <td class="money">
+
+                    ₹<span th:text="${order.totalAmount}">
+                        0
+                    </span>
+
+                </td>
+
+
+                <td th:text="${order.orderDate}">
+                    Date
+                </td>
+
+
+                <td>
+
+                    <!-- CONFIRMED -->
+
+                    <span th:if="${order.status == 'CONFIRMED'}"
+                          class="confirmed">
+
+                        CONFIRMED
+
+                    </span>
+
+
+                    <!-- PENDING -->
+
+                    <span th:if="${order.status == 'PENDING'}"
+                          class="pending">
+
+                        PENDING
+
+                    </span>
+
+
+                    <!-- CANCELLED -->
+
+                    <span th:if="${order.status == 'CANCELLED'}"
+                          class="cancelled">
+
+                        CANCELLED
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <a class="delete"
+                       th:href="@{/sales-orders/delete/{id}(id=${order.id})}"
+                       onclick="return confirm('Delete this sales order?');">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+
+            <!-- Empty Data -->
+
+            <tr th:if="${#lists.isEmpty(orders)}">
+
+                <td colspan="9"
+                    class="empty-message">
+
+                    No Sales Orders found.
+
+                    <br><br>
+
+                    Click
+                    <strong>+ Create Sales Order</strong>
+                    to create a sales order.
+
+                </td>
+
+            </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

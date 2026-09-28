@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Plants</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.10);
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .add {
+            background: #1976d2;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #222;
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .edit {
+            background: #f0a000;
+            color: white;
+            padding: 7px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+            padding: 7px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+
+        <h1>Water Purification Plants</h1>
+
+        <a class="add"
+           th:href="@{/plants/new}">
+            + Add Plant
+        </a>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Minimum pH</th>
+            <th>Maximum pH</th>
+            <th>Current pH</th>
+            <th>Status</th>
+            <th>Actions</th>
+
+        </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        <tr th:each="plant : ${plants}">
+
+            <td th:text="${plant.id}">
+                1
+            </td>
+
+            <td th:text="${plant.name}">
+                Plant
+            </td>
+
+            <td th:text="${plant.location}">
+                Location
+            </td>
+
+            <td th:text="${plant.minimumPh}">
+                6.5
+            </td>
+
+            <td th:text="${plant.maximumPh}">
+                8.5
+            </td>
+
+            <td th:text="${plant.currentPh}">
+                7.2
+            </td>
+
+            <td th:text="${plant.alertStatus}">
+                NORMAL
+            </td>
+
+            <td>
+
+                <a class="edit"
+                   th:href="@{/plants/edit/{id}(id=${plant.id})}">
+                    Edit
+                </a>
+
+                <a class="delete"
+                   th:href="@{/plants/delete/{id}(id=${plant.id})}"
+                   onclick="return confirm('Delete this plant?');">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+
+        <tr th:if="${#lists.isEmpty(plants)}">
+
+            <td colspan="8"
+                class="empty">
+
+                No plants found.
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

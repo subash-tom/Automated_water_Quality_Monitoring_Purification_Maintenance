@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Create Customer Invoice</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            padding: 30px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #1565c0;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🧾 Customer Invoice</h1>
+
+    <form action="/customer-invoices/save" method="post">
+
+        <label>Sales Order</label>
+
+        <select name="salesOrderId" required>
+
+            <option value="">
+                -- Select Sales Order --
+            </option>
+
+            <option th:each="order : ${salesOrders}"
+                    th:value="${order.id}"
+                    th:text="${'SO-' + order.id + ' | ' + order.customer.name + ' | ₹' + order.totalAmount}">
+            </option>
+
+        </select>
+
+
+        <label>Invoice Number</label>
+
+        <input type="text"
+               name="invoiceNumber"
+               placeholder="Example: INV-001"
+               required>
+
+
+        <label>Invoice Date</label>
+
+        <input type="date"
+               name="invoiceDate"
+               required>
+
+
+        <button type="submit">
+            💾 Create Invoice
+        </button>
+
+    </form>
+
+    <a class="back" href="/customer-invoices">
+        ← Back to Customer Invoices
+    </a>
+
+</div>
+
+</body>
+
+</html>

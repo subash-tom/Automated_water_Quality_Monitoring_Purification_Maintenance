@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Customer Payment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button,
+        .cancel {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel {
+            background: #6b7280;
+            color: white;
+        }
+
+        .cancel:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Add Customer Payment</h2>
+
+    <form th:action="@{/customer-payments/save}" method="post">
+
+        <label>Customer Invoice</label>
+
+        <select name="invoiceId" required>
+
+            <option value="">
+                -- Select Customer Invoice --
+            </option>
+
+            <option th:each="invoice : ${invoices}"
+                    th:value="${invoice.id}"
+                    th:text="${invoice.invoiceNumber
+                    + ' - '
+                    + invoice.customer.name
+                    + ' - ₹'
+                    + invoice.amount}">
+            </option>
+
+        </select>
+
+
+        <label>Payment Date</label>
+
+        <input type="date"
+               name="paymentDate"
+               required>
+
+
+        <label>Payment Method</label>
+
+        <select name="paymentMethod" required>
+
+            <option value="">
+                -- Select Payment Method --
+            </option>
+
+            <option value="BANK">
+                Bank
+            </option>
+
+            <option value="CASH">
+                Cash
+            </option>
+
+            <option value="UPI">
+                UPI
+            </option>
+
+            <option value="CHEQUE">
+                Cheque
+            </option>
+
+        </select>
+
+
+        <label>Reference Number</label>
+
+        <input type="text"
+               name="referenceNumber"
+               placeholder="Enter transaction/reference number"
+               required>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Save Payment
+            </button>
+
+            <a href="/customer-payments"
+               class="cancel">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

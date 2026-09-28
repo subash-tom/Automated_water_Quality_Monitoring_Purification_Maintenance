@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Budget</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        .container {
+            width: 500px;
+            max-width: 95%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 Budget</h1>
+
+    <form th:action="${budget.id == null}
+            ? @{/budgets/save}
+            : @{/budgets/update/{id}(id=${budget.id})}"
+          th:object="${budget}"
+          method="post">
+
+        <label>
+            Budget Name
+        </label>
+
+        <input type="text"
+               th:field="*{budgetName}"
+               placeholder="Example: Water Plant Budget"
+               required>
+
+
+        <label>
+            Budget Year
+        </label>
+
+        <input type="number"
+               th:field="*{budgetYear}"
+               min="2000"
+               max="2100"
+               required>
+
+
+        <label>
+            Budget Amount
+        </label>
+
+        <input type="number"
+               th:field="*{budgetAmount}"
+               step="0.01"
+               min="0"
+               required>
+
+
+        <label>
+            Spent Amount
+        </label>
+
+        <input type="number"
+               th:field="*{spentAmount}"
+               step="0.01"
+               min="0"
+               required>
+
+
+        <button type="submit">
+
+            💾 Save Budget
+
+        </button>
+
+    </form>
+
+    <a class="back"
+       th:href="@{/budgets}">
+
+        ← Back to Budgets
+
+    </a>
+
+</div>
+
+</body>
+
+</html>

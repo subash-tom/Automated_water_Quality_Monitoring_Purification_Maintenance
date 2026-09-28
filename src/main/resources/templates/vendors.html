@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Vendors</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .add-button {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f1f1;
+        }
+
+        .edit {
+            color: #0d6efd;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .delete {
+            color: #dc3545;
+            text-decoration: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Vendors</h1>
+
+    <a class="add-button"
+       th:href="@{/vendors/add}">
+        + Add Vendor
+    </a>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact Person</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="vendor : ${vendors}">
+
+            <td th:text="${vendor.id}"></td>
+
+            <td th:text="${vendor.name}"></td>
+
+            <td th:text="${vendor.contactPerson}"></td>
+
+            <td th:text="${vendor.phone}"></td>
+
+            <td th:text="${vendor.email}"></td>
+
+            <td th:text="${vendor.address}"></td>
+
+            <td>
+
+                <a class="edit"
+                   th:href="@{/vendors/edit/{id}(id=${vendor.id})}">
+                    Edit
+                </a>
+
+                <a class="delete"
+                   th:href="@{/vendors/delete/{id}(id=${vendor.id})}"
+                   onclick="return confirm('Are you sure you want to delete this vendor?');">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(vendors)}">
+
+            <td colspan="7"
+                class="empty">
+
+                No vendors found.
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Product</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        .container {
+            width: 500px;
+            max-width: 92%;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1466d8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #1466d8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d55b7;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #1466d8;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 th:if="${product.id == null}">
+        ➕ Add Product
+    </h1>
+
+    <h1 th:if="${product.id != null}">
+        ✏️ Edit Product
+    </h1>
+
+
+    <form th:if="${product.id == null}"
+          action="/products/save"
+          method="post">
+
+        <label>Product Name</label>
+
+        <input type="text"
+               name="name"
+               th:value="${product.name}"
+               placeholder="Enter product name"
+               required>
+
+
+        <label>Product Type</label>
+
+        <select name="type" required>
+
+            <option value="">
+                Select Product Type
+            </option>
+
+            <option value="Water Purification Filter">
+                Water Purification Filter
+            </option>
+
+            <option value="Water Treatment Chemicals">
+                Water Treatment Chemicals
+            </option>
+
+            <option value="Water Quality Testing">
+                Water Quality Testing
+            </option>
+
+        </select>
+
+
+        <label>Price</label>
+
+        <input type="number"
+               name="price"
+               step="0.01"
+               min="0"
+               th:value="${product.price}"
+               placeholder="Enter price"
+               required>
+
+
+        <label>Description</label>
+
+        <textarea name="description"
+                  placeholder="Enter product description"
+                  th:text="${product.description}">
+        </textarea>
+
+
+        <button type="submit">
+            Save Product
+        </button>
+
+    </form>
+
+
+    <form th:if="${product.id != null}"
+          th:action="@{/products/update/{id}(id=${product.id})}"
+          method="post">
+
+        <label>Product Name</label>
+
+        <input type="text"
+               name="name"
+               th:value="${product.name}"
+               required>
+
+
+        <label>Product Type</label>
+
+        <select name="type" required>
+
+            <option value="Water Purification Filter"
+                    th:selected="${product.type == 'Water Purification Filter'}">
+                Water Purification Filter
+            </option>
+
+            <option value="Water Treatment Chemicals"
+                    th:selected="${product.type == 'Water Treatment Chemicals'}">
+                Water Treatment Chemicals
+            </option>
+
+            <option value="Water Quality Testing"
+                    th:selected="${product.type == 'Water Quality Testing'}">
+                Water Quality Testing
+            </option>
+
+        </select>
+
+
+        <label>Price</label>
+
+        <input type="number"
+               name="price"
+               step="0.01"
+               min="0"
+               th:value="${product.price}"
+               required>
+
+
+        <label>Description</label>
+
+        <textarea name="description"
+                  th:text="${product.description}">
+        </textarea>
+
+
+        <button type="submit">
+            Update Product
+        </button>
+
+    </form>
+
+
+    <a href="/products"
+       class="back">
+        ← Back to Products
+    </a>
+
+</div>
+
+</body>
+</html>

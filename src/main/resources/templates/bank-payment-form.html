@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Bank Payment</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        .container {
+            width: 480px;
+            max-width: 95%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #15803d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 Bank Payment</h1>
+
+    <form th:action="@{/bank-payments/save}"
+          method="post">
+
+        <label>
+            Vendor Bill
+        </label>
+
+        <select name="vendorBillId"
+                id="vendorBillId"
+                required>
+
+            <option value="">
+                -- Select Unpaid Bill --
+            </option>
+
+            <option th:each="bill : ${unpaidBills}"
+                    th:value="${bill.id}"
+                    th:text="${bill.billNumber + ' - ₹' + bill.amount}">
+            </option>
+
+        </select>
+
+        <div class="info">
+
+            <div>
+                <strong>Vendor:</strong>
+                <span id="vendorName">-</span>
+            </div>
+
+            <br>
+
+            <div>
+                <strong>Bill Amount:</strong>
+                ₹ <span id="billAmount">0.00</span>
+            </div>
+
+        </div>
+
+        <label>
+            Payment Date
+        </label>
+
+        <input type="date"
+               name="paymentDate"
+               required>
+
+        <label>
+            Payment Method
+        </label>
+
+        <select name="paymentMethod"
+                required>
+
+            <option value="">
+                -- Select Payment Method --
+            </option>
+
+            <option value="BANK_TRANSFER">
+                Bank Transfer
+            </option>
+
+            <option value="NEFT">
+                NEFT
+            </option>
+
+            <option value="RTGS">
+                RTGS
+            </option>
+
+            <option value="IMPS">
+                IMPS
+            </option>
+
+            <option value="CHEQUE">
+                Cheque
+            </option>
+
+        </select>
+
+        <label>
+            Transaction / Reference Number
+        </label>
+
+        <input type="text"
+               name="transactionNumber"
+               placeholder="Example: TXN-1001"
+               required>
+
+        <button type="submit">
+            💰 Make Payment
+        </button>
+
+    </form>
+
+    <a class="back"
+       th:href="@{/bank-payments}">
+        ← Back to Bank Payments
+    </a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Financial Reports - Water Quality</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+
+        /* ================= HEADER ================= */
+
+         .header {
+            background: #1664d9;
+            color: white;
+            padding: 36px 60px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 18px 0 0;
+            font-size: 20px;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+
+        .main-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+
+        .top-bar h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #152238;
+        }
+
+
+        /* ================= DASHBOARD BUTTON ================= */
+
+        .dashboard-btn {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+
+        .dashboard-btn:hover {
+            background: #157347;
+        }
+
+
+        /* ================= REPORT GRID ================= */
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+
+        .report-card {
+            display: block;
+            background: white;
+            border: 1px solid #e1e5ea;
+            border-radius: 12px;
+            padding: 25px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+            transition: 0.2s;
+        }
+
+
+        .report-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            border-color: #1664d9;
+        }
+
+
+        .report-icon {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+
+        .report-card h3 {
+            margin: 0 0 10px;
+            color: #1664d9;
+            font-size: 20px;
+        }
+
+
+        .report-card p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .report-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 22px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .main-card {
+                padding: 20px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .top-bar h2 {
+                text-align: center;
+                font-size: 23px;
+            }
+
+            .dashboard-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <h1>
+        💧 Water Quality Monitoring Hub
+    </h1>
+
+    <p>
+        Financial Accounting &amp; Reports Management
+    </p>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <div class="main-card">
+
+
+        <!-- TITLE + DASHBOARD -->
+
+        <div class="top-bar">
+
+            <h2>
+                📊 Financial Reports
+            </h2>
+
+            <a th:href="@{/dashboard}"
+               class="dashboard-btn">
+
+                🏠 Dashboard
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ================= REPORT CARDS ================= -->
+
+        <div class="report-grid">
+
+
+            <!-- BALANCE SHEET -->
+
+            <a th:href="@{/reports/balance-sheet}"
+               class="report-card">
+
+                <div class="report-icon">
+                    ⚖️
+                </div>
+
+                <h3>
+                    Balance Sheet
+                </h3>
+
+                <p>
+                    View assets, liabilities and equity
+                    of the water quality management system.
+                </p>
+
+            </a>
+
+
+
+            <!-- PROFIT & LOSS -->
+
+            <a th:href="@{/reports/profit-loss}"
+               class="report-card">
+
+                <div class="report-icon">
+                    📈
+                </div>
+
+                <h3>
+                    Profit &amp; Loss
+                </h3>
+
+                <p>
+                    View water supply revenue,
+                    expenses and net profit or loss.
+                </p>
+
+            </a>
+
+
+
+            <!-- BUDGET REPORT -->
+
+            <a th:href="@{/reports/budget-report}"
+               class="report-card">
+
+                <div class="report-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Budget Report
+                </h3>
+
+                <p>
+                    View budget amount, actual expenses,
+                    variance and budget status.
+                </p>
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

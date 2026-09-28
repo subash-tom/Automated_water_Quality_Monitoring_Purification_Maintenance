@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Purchase Order</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            background: #198754;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #146c43;
+        }
+
+        .back {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 th:if="${purchaseOrder.id == null}">
+        Add Purchase Order
+    </h1>
+
+    <h1 th:unless="${purchaseOrder.id == null}">
+        Edit Purchase Order
+    </h1>
+
+    <!-- ERROR MESSAGE -->
+
+    <div class="error"
+         th:if="${error != null}"
+         th:text="${error}">
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- ADD FORM -->
+    <!-- ========================= -->
+
+    <form th:if="${purchaseOrder.id == null}"
+          th:action="@{/purchase-orders/save}"
+          th:object="${purchaseOrder}"
+          method="post">
+
+        <!-- ORDER NUMBER -->
+
+        <div class="form-group">
+
+            <label for="orderNumber">
+                Order Number
+            </label>
+
+            <input type="text"
+                   id="orderNumber"
+                   th:field="*{orderNumber}"
+                   placeholder="PO-001"
+                   required>
+
+        </div>
+
+
+        <!-- VENDOR -->
+
+        <div class="form-group">
+
+            <label for="vendorId">
+                Vendor
+            </label>
+
+            <select id="vendorId"
+                    th:field="*{vendorId}"
+                    required>
+
+                <option value="">
+                    -- Select Vendor --
+                </option>
+
+                <option th:each="vendor : ${vendors}"
+                        th:value="${vendor.id}"
+                        th:text="${vendor.name}">
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ORDER DATE -->
+
+        <div class="form-group">
+
+            <label for="orderDate">
+                Order Date
+            </label>
+
+            <input type="date"
+                   id="orderDate"
+                   th:field="*{orderDate}">
+
+        </div>
+
+
+        <!-- EXPECTED DATE -->
+
+        <div class="form-group">
+
+            <label for="expectedDate">
+                Expected Date
+            </label>
+
+            <input type="date"
+                   id="expectedDate"
+                   th:field="*{expectedDate}">
+
+        </div>
+
+
+        <!-- TOTAL AMOUNT -->
+
+        <div class="form-group">
+
+            <label for="totalAmount">
+                Total Amount
+            </label>
+
+            <input type="number"
+                   id="totalAmount"
+                   step="0.01"
+                   min="0"
+                   th:field="*{totalAmount}"
+                   placeholder="0.00"
+                   required>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+
+            <label for="status">
+                Status
+            </label>
+
+            <select id="status"
+                    th:field="*{status}">
+
+                <option value="PENDING">
+                    PENDING
+                </option>
+
+                <option value="APPROVED">
+                    APPROVED
+                </option>
+
+                <option value="RECEIVED">
+                    RECEIVED
+                </option>
+
+                <option value="CANCELLED">
+                    CANCELLED
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea id="description"
+                      th:field="*{description}"
+                      placeholder="Enter description">
+            </textarea>
+
+        </div>
+
+
+        <button type="submit">
+            Save Purchase Order
+        </button>
+
+        <a href="/purchase-orders"
+           class="back">
+            Cancel
+        </a>
+
+    </form>
+
+
+    <!-- ========================= -->
+    <!-- EDIT FORM -->
+    <!-- ========================= -->
+
+    <form th:unless="${purchaseOrder.id == null}"
+          th:action="@{/purchase-orders/update/{id}(id=${purchaseOrder.id})}"
+          th:object="${purchaseOrder}"
+          method="post">
+
+        <div class="form-group">
+
+            <label>
+                Order Number
+            </label>
+
+            <input type="text"
+                   th:field="*{orderNumber}"
+                   required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Vendor
+            </label>
+
+            <select th:field="*{vendorId}"
+                    required>
+
+                <option value="">
+                    -- Select Vendor --
+                </option>
+
+                <option th:each="vendor : ${vendors}"
+                        th:value="${vendor.id}"
+                        th:text="${vendor.name}">
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Order Date
+            </label>
+
+            <input type="date"
+                   th:field="*{orderDate}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Expected Date
+            </label>
+
+            <input type="date"
+                   th:field="*{expectedDate}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Total Amount
+            </label>
+
+            <input type="number"
+                   step="0.01"
+                   min="0"
+                   th:field="*{totalAmount}"
+                   required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Status
+            </label>
+
+            <select th:field="*{status}">
+
+                <option value="PENDING">
+                    PENDING
+                </option>
+
+                <option value="APPROVED">
+                    APPROVED
+                </option>
+
+                <option value="RECEIVED">
+                    RECEIVED
+                </option>
+
+                <option value="CANCELLED">
+                    CANCELLED
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Description
+            </label>
+
+            <textarea th:field="*{description}">
+            </textarea>
+
+        </div>
+
+
+        <button type="submit">
+            Update Purchase Order
+        </button>
+
+        <a href="/purchase-orders"
+           class="back">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
